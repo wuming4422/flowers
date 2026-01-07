@@ -1,0 +1,31 @@
+server:
+  port: 9090  # 项目启动端口
+
+spring:
+  # 数据源配置（核心修复：替换为新版MySQL驱动）
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  # 修复：改用新版驱动类
+    url: jdbc:mysql://127.0.0.1:3306/flowers_shop?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    # 优化：开发环境useSSL改为false，避免SSL警告；生产环境可改回true
+    username: root
+    password: 123456
+
+  # 补充MVC路径匹配配置（解决Spring Boot 2.6+路径匹配兼容问题，可选但建议加）
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  # 扫描MyBatis的XML映射文件
+
+# MyBatis-Plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 打印SQL日志，方便调试
+
+# 文件上传路径配置
+files:
+  upload:
+    path: D:/workspace_idea/files/
+    pattern: /file/**  # 补充：文件访问虚拟路径（配合静态资源映射）
